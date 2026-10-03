@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Resource Manager</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script src="/assets/theme.js"></script>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <!-- Đăng nhập -->
+  <main id="login-view" class="login-box" hidden>
+    <h1>Resource Manager</h1>
+    <form id="login-form" autocomplete="on">
+      <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+      <p class="error-text" id="login-error" role="alert"></p>
+      <button class="btn" type="submit" id="login-btn">Log in</button>
+    </form>
+  </main>
+
+  <!-- Dashboard -->
+  <div id="app-view" class="wrap" hidden>
+    <header class="site-header">
+      <a class="brand" href="/"><img src="/favicon.svg" alt="" width="22" height="22">Resource Library</a>
+      <div class="header-actions">
+        <a class="btn secondary small" href="/" target="_blank" rel="noopener">View site</a>
+        <button class="btn secondary icon" id="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
+        <button class="btn secondary small" id="logout-btn" type="button">Log out</button>
+      </div>
+    </header>
+
+    <h1 class="admin-title">Resource Manager</h1>
+
+    <section id="dropzone" class="dropzone" aria-label="Upload files">
+      <strong>Drop files here</strong>
+      <p>PNG, JPG, SVG, PSD, AI, EPS, PDF, ZIP, RAR, 7Z, MP4, MP3 and more. Large files are fine.</p>
+      <button class="btn" id="choose-btn" type="button">Choose files</button>
+      <input id="file-input" type="file" multiple hidden>
+      <div class="dz-meta">
+        <label for="batch-category">Category for this batch</label>
+        <select id="batch-category"><option value="">Auto</option></select>
+      </div>
+    </section>
+
+    <section id="queue-wrap" hidden>
+      <div class="queue" id="queue"></div>
+      <div class="summary">
+        <p id="summary-text" class="dlg-text"></p>
+        <div class="q-actions">
+          <button class="btn secondary small" id="clear-btn" type="button">Clear finished</button>
+          <button class="btn secondary small" id="retry-btn" type="button" hidden>Retry failed</button>
+          <button class="btn small" id="upload-btn" type="button">Upload</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="admin-title section-title">All resources <span id="total" class="dlg-text"></span></h2>
+      <div class="toolbar">
+        <div class="search"><input id="search" type="search" placeholder="Search resources…" aria-label="Search resources" autocomplete="off"></div>
+        <select id="sort" aria-label="Sort">
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="name_asc">Name A–Z</option>
+          <option value="name_desc">Name Z–A</option>
+          <option value="size_desc">Largest file</option>
+          <option value="size_asc">Smallest file</option>
+        </select>
+      </div>
+      <div class="bulkbar">
+        <label><input type="checkbox" id="select-all"> Select all</label>
+        <button class="btn danger small" id="bulk-delete" type="button" disabled>Delete selected</button>
+      </div>
+      <div class="list" id="list"></div>
+      <p class="status" id="list-status" hidden></p>
+      <div class="more" id="more" hidden><button class="btn secondary" id="more-btn" type="button">Load more</button></div>
+    </section>
+  </div>
+
+  <!-- Sửa resource -->
+  <dialog id="edit-dialog" aria-label="Edit resource">
+    <form id="edit-form" class="dlg-body">
+      <h2 class="dlg-title">Edit resource</h2>
+      <div class="form-grid">
+        <div class="field"><label for="e-name">Name</label><input id="e-name" type="text" maxlength="200" required></div>
+        <div class="field"><label for="e-desc">Description</label><textarea id="e-desc" maxlength="2000"></textarea></div>
+        <div class="field"><label for="e-cat">Category</label><select id="e-cat"></select></div>
+        <div class="field"><label for="e-tags">Tags (comma separated)</label><input id="e-tags" type="text" placeholder="bottle, packaging, mockup"></div>
+        <div class="field">
+          <label>Thumbnail</label>
+          <div class="thumb-edit">
+            <div class="mini" id="e-thumb"></div>
+            <button class="btn secondary small" id="e-thumb-btn" type="button">Change</button>
+            <input id="e-thumb-input" type="file" accept="image/*" hidden>
+          </div>
+        </div>
+      </div>
+      <p class="error-text" id="e-error" role="alert"></p>
+      <div class="dlg-actions">
+        <button class="btn secondary" type="button" id="e-cancel">Cancel</button>
+        <button class="btn" type="submit" id="e-save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Xác nhận xoá -->
+  <dialog id="confirm-dialog" class="narrow" aria-label="Confirm delete">
+    <div class="dlg-body">
+      <h2 class="dlg-title" id="c-title">Delete this resource?</h2>
+      <div id="c-body"></div>
+      <p class="dlg-text mt10">This will permanently delete the file.</p>
+      <div class="dlg-actions">
+        <button class="btn secondary" type="button" id="c-cancel">Cancel</button>
+        <button class="btn danger" type="button" id="c-ok">Delete</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="/assets/admin.js"></script>
+</body>
+</html>

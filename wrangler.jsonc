@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "resource-library",
+  "main": "src/index.js",
+  "compatibility_date": "2025-09-01",
+
+  // Frontend (thư mục public/) và API (src/index.js) chạy chung trong 1 Worker.
+  // Chỉ các đường dẫn /api/* chạy Worker trước; còn lại là file tĩnh.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "resource-library-db",
+      "database_id": "PASTE_YOUR_D1_DATABASE_ID_HERE"
+    }
+  ],
+
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "resource-library-files"
+    }
+  ],
+
+  "vars": {
+    // Tên bucket (khớp với r2_buckets ở trên) — dùng khi tạo link tải trực tiếp
+    "R2_BUCKET_NAME": "resource-library-files",
+    // OPTIONAL: Account ID của Cloudflare. Điền để bật tải trực tiếp từ R2 (presigned URL).
+    // Để trống = file được stream qua Worker (vẫn hoạt động tốt).
+    "R2_ACCOUNT_ID": ""
+  }
+}

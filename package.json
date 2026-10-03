@@ -1,0 +1,19 @@
+{
+  "name": "resource-library",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init:local": "wrangler d1 execute resource-library-db --local --file=./schema.sql",
+    "db:init": "wrangler d1 execute resource-library-db --remote --file=./schema.sql",
+    "hash-password": "node scripts/hash-password.mjs"
+  },
+  "dependencies": {
+    "aws4fetch": "^1.0.20"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
